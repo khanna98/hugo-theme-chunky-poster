@@ -1,6 +1,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>{{ .Site.Title }}</title>
+
+<title>
+  {{ block "title" . }}
+    {{ with .Params.Title }} {{ . }} | {{ end }}
+    {{ .Site.Title }}
+  {{ end }}
+</title>
 
 {{- if .Description -}}
   <meta name="description" content="{{ .Description }}">
@@ -24,6 +30,10 @@
             <link rel="stylesheet" href="{{ print "dist/" $vendor.css | relURL }}">
         {{ end }}
     {{ end }}
+{{ end }}
+
+{{ range .Site.Params.customCSS -}}
+    <link rel="stylesheet" href="{{ "css/" | relURL }}{{ . }}">
 {{ end }}
 
 <link rel="canonical" href="{{ .Permalink }}">
